@@ -1,7 +1,6 @@
 {
   "name": "react-dev-stack",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server"
@@ -16,7 +15,18 @@
     "babel-preset-react": "^6.5.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdelrossi1/react-minesweeper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mdelrossi1/react-minesweeper/issues"
+  },
+  "homepage": "https://github.com/mdelrossi1/react-minesweeper#readme",
+  "description": ""
 }
