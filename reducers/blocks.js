@@ -20,55 +20,43 @@ const initData = (id) => {
             }
         }
 
-        blocks = addTicks(blocks, rows, cols);
+        blocks = addTicks(blocks);
 
         return blocks;
     },
 
-    addTicks = (blocks, mineFieldRows, mineFieldCols) => {
-        for (let rowIndex = 0; rowIndex < mineFieldRows; rowIndex++) {
-            for (let colIndex = 0; colIndex < mineFieldCols; colIndex++) {
-                let currentBlock = blocks[rowIndex][colIndex],
-                    firstRow = rowIndex === 0,
-                    lastRow = rowIndex === mineFieldRows - 1,
-                    firstCol = colIndex === 0,
-                    lastCol = colIndex === mineFieldCols - 1;
-
-                if (currentBlock.isMine) { continue; }
-
-                if (!firstRow) {
-                    if (!firstCol) {
-                        if (blocks[rowIndex - 1][colIndex - 1].isMine) { currentBlock.ticks++; }
-                    }
-
-                    if (blocks[rowIndex - 1][colIndex].isMine) { currentBlock.ticks++; }
-
-                    if (!lastCol) {
-                        if (blocks[rowIndex - 1][colIndex + 1].isMine) { currentBlock.ticks++; }
-                    }
-                }
-
-                if (!firstCol) {
-                    if (blocks[rowIndex][colIndex - 1].isMine) { currentBlock.ticks++; }
-                }
-
-                if (!lastCol) {
-                    if (blocks[rowIndex][colIndex + 1].isMine) { currentBlock.ticks++; }
-                }
-
-                if (!lastRow) {
-                    if (!firstCol) {
-                        if (blocks[rowIndex + 1][colIndex - 1].isMine) { currentBlock.ticks++; }
-                    }
-
-                    if (blocks[rowIndex + 1][colIndex].isMine) { currentBlock.ticks++; }
-
-                    if (!lastCol) {
-                        if (blocks[rowIndex + 1][colIndex + 1].isMine) { currentBlock.ticks++; }
-                    }
-                }
-            }
+    addTick = (block, blocks, row, col) => {
+        if (!blocks[row]) {
+            return false;
         }
+
+        if(!blocks[row][col]) {
+            return false;
+        }
+
+        if (blocks[row][col].isMine) {
+            block.ticks++;
+        }
+    },
+
+    addTicks = (blocks) => {
+
+        blocks.map((row, rowIndex) => {
+            row.map((block, colIndex) => {
+                if (block.isMine) { return; }
+
+                addTick(block, blocks, (rowIndex - 1), (colIndex - 1));
+                addTick(block, blocks, (rowIndex - 1), (colIndex));
+                addTick(block, blocks, (rowIndex - 1), (colIndex + 1));
+
+                addTick(block, blocks, (rowIndex), (colIndex - 1));
+                addTick(block, blocks, (rowIndex), (colIndex + 1));
+
+                addTick(block, blocks, (rowIndex + 1), (colIndex - 1));
+                addTick(block, blocks, (rowIndex + 1), (colIndex));
+                addTick(block, blocks, (rowIndex + 1), (colIndex + 1));
+            });
+        });
 
         return blocks;
     },
@@ -88,11 +76,11 @@ const initData = (id) => {
         let wasRevealed,
             block;
 
-        if (typeof field[row] === 'undefined') {
+        if (!field[row]) {
             return false;
         }
 
-        if (typeof field[row][col] === 'undefined') {
+        if (!field[row][col]) {
             return false;
         }
 
