@@ -26,6 +26,10 @@ class MineField extends React.Component {
                     value = "X";
                 }
 
+                if (block.flagged && !block.revealed) {
+                    value = "F"
+                }
+
                 cols[index] = <Block row={rowIndex} col={index} key={index} id={index} isRevealed={block.revealed} isMine={block.isMine} id={block.id} value={value}  />;
             });
 

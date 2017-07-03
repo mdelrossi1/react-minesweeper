@@ -1,5 +1,5 @@
 const initData = (id) => {
-        return { ticks: 0, isMine: false, revealed: false, id: id };
+        return { ticks: 0, isMine: false, revealed: false, id: id, flagged: false };
     },
 
     buildField = (randomNumbersArray, cols, rows) => {
@@ -85,11 +85,32 @@ const initData = (id) => {
         }
 
         block = field[row][col];
+
         wasRevealed = block.revealed;
         block.revealed = true;
 
         if (block.ticks === 0 && wasRevealed === false && block.isMine === false) {
             floodArea(field, row, col);
+        }
+
+        return field;
+    },
+
+    revealedHandler = (field, row, col) => {
+        let block = field[row][col];
+
+        if (block.flagged) {
+            return field;
+        }
+
+        return setRevealed(field, row, col);
+    },
+
+    setFlagged = (field, row, col) => {
+        let block = field[row][col];
+
+        if (!block.revealed) {
+            block.flagged = !block.flagged;
         }
 
         return field;
@@ -103,8 +124,11 @@ const blocks = (state = [], action) => {
             newState = buildField(action.mines, action.cols, action.rows);
             break;
         case 'REVEAL_MINE':
-            newState = setRevealed(newState, action.row, action.col);
-
+            newState = revealedHandler(newState, action.row, action.col);
+            break;
+        case 'FLAG_MINE':
+            newState = setFlagged(newState, action.row, action.col);
+            break;
     }
 
     return newState;

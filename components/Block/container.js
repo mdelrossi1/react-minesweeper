@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { revealMine } from '../../actions/revealMine'
+import { revealMine } from '../../actions/revealMine';
+import { flagMine } from '../../actions/flagMine';
 import Block from './presentational';
 
 const mapStateToProps = (state, ownProps) =>  {
@@ -23,6 +24,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         col = ownProps.col;
 
     return {
+        contextHandler: (e) => {
+            e.preventDefault();
+
+            dispatch(flagMine(row, col));
+        },
+
         clickHandler: (e) => {
             e.preventDefault();
 
