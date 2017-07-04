@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import Block from 'components/Block/container.js'
+import React from 'react';
+import Block from '../../components/Block/container.js';
 
 class MineField extends React.Component {
     componentWillMount() {
@@ -8,18 +8,14 @@ class MineField extends React.Component {
 
     render() {
         let mineFieldSize = this.props.mineFieldSize,
-            mineFieldCols = this.props.mineFieldCols,
-            mineFieldRows = this.props.mineFieldRows,
             blocks = this.props.blocks,
-            cols = [],
-            rows = [],
-            rowIndex = 0;
+            cols,
+            rows = [];
 
-        blocks.map((block, index) => {
+        blocks.map((row, rowIndex) => {
             cols = [];
-            rowIndex = index;
 
-            block.map((block, index) => {
+            row.map((block, colIndex) => {
                 let value = (block.revealed) ? block.ticks : '*';
 
                 if (block.isMine && block.revealed) {
@@ -30,10 +26,14 @@ class MineField extends React.Component {
                     value = "F"
                 }
 
-                cols[index] = <Block row={rowIndex} col={index} key={index} id={index} isRevealed={block.revealed} isMine={block.isMine} id={block.id} value={value}  />;
+                cols[colIndex] = <Block row={rowIndex} col={colIndex} key={colIndex} isRevealed={block.revealed} isMine={block.isMine} id={block.id} value={value}  />;
+
+                return false;
             });
 
-            rows[index] = <ul key={index} data-row={index} style={{margin: 0, padding: 0, listStyle: "none"}}>{cols}</ul>;
+            rows[rowIndex] = <ul key={rowIndex} data-row={rowIndex} style={{margin: 0, padding: 0, listStyle: "none"}}>{cols}</ul>;
+
+            return false;
         });
 
         return <div className={"mine-field mine-field--" + mineFieldSize}>{rows}</div>;

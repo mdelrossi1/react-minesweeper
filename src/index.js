@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import router from './reducers/index.js'
 import MineField from './components/MineField/container.js';
+import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(router);
 
@@ -13,3 +14,4 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('app')
 );
+registerServiceWorker();

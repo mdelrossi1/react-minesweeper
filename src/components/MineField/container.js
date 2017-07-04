@@ -1,4 +1,3 @@
-import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { initApp } from '../../actions/initApp'
 import MineField from './presentational';
@@ -13,7 +12,7 @@ const mapStateToProps = (state, ownProps) =>  {
                 i = 0;
 
             if (total > ceiling) {
-                throw 'The total number of random numbers wanted must be greater than the ceiling';
+                throw new Error('The total number of random numbers wanted must be greater than the ceiling');
             }
 
             while(i < total) {

@@ -8,6 +8,8 @@ var gameState = (state = {}, action) => {
         case 'INIT_APP':
             newState.totalMines = action.mines.length;
             break;
+
+        // no default
     }
 
     return newState;

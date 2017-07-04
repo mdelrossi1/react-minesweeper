@@ -43,7 +43,7 @@ const initData = (id) => {
 
         blocks.map((row, rowIndex) => {
             row.map((block, colIndex) => {
-                if (block.isMine) { return; }
+                if (block.isMine) { return false; }
 
                 addTick(block, blocks, (rowIndex - 1), (colIndex - 1));
                 addTick(block, blocks, (rowIndex - 1), (colIndex));
@@ -55,7 +55,11 @@ const initData = (id) => {
                 addTick(block, blocks, (rowIndex + 1), (colIndex - 1));
                 addTick(block, blocks, (rowIndex + 1), (colIndex));
                 addTick(block, blocks, (rowIndex + 1), (colIndex + 1));
+
+                return false;
             });
+
+            return false;
         });
 
         return blocks;
@@ -129,6 +133,8 @@ const blocks = (state = [], action) => {
         case 'FLAG_MINE':
             newState = setFlagged(newState, action.row, action.col);
             break;
+
+        // no default
     }
 
     return newState;
